@@ -1,15 +1,30 @@
 from model.categoria import Categoria
+from database.client_factory import ClientFactory
 
 class CategoriaDAO:
 
     def __init__(self):
+        self.__client_factory: ClientFactory = ClientFactory()
         self.__categorias: list[Categoria] = list()
 
     def listar(self) -> list[Categoria]:
-        return self.__categorias
+        categorias = list()
+
+        client = self.__client_factory.get_client()
+        db = client.livraria
+        for documento in db.categorias.find():
+            cat = Categoria(documento['nome'])
+            cat.id = documento['_id']
+            categorias.append(cat)
+        client.close()
+
+        return categorias
 
     def adicionar(self, categoria: Categoria) -> None:
-        self.__categorias.append(categoria)
+        client = self.__client_factory.get_client()
+        db = client.livraria
+        db.categorias.insert_one({'nome': categoria.nome})
+        client.close()   
 
     def remover(self, categoria_id: int) -> bool:
         encontrado = False

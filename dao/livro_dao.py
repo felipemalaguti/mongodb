@@ -15,7 +15,6 @@ class LivroDAO:
         self.__categoria_dao: CategoriaDAO = categoria_dao
         self.__editora_dao: EditoraDAO = editora_dao
         self.__autor_dao: AutorDAO = autor_dao
-        self.__livros: list[Livro] = list()
 
     def listar(self) -> list[Livro]:
         livros = list()

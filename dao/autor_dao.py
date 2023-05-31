@@ -6,7 +6,6 @@ class AutorDAO:
 
     def __init__(self):
         self.__client_factory: ClientFactory = ClientFactory()
-        self.__autores: list[Autor] = list()
 
     def listar(self) -> list[Autor]:
         autores = list()
@@ -38,7 +37,7 @@ class AutorDAO:
             return True
         return False
 
-    def buscar_por_id(self, autor_id) -> Autor:
+    def buscar_por_id(self, autor_id: str) -> Autor:
         aut = None
         client = self.__client_factory.get_client()
         db = client.livraria
